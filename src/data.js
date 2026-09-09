@@ -160,16 +160,16 @@ export const certificates = [
 export const experiences = [
   {
     id: 1,
-    role: 'Staff Pusat Penelitian',
+    role: 'Data Entry',
     company: 'Lembaga Penelitian dan Pengabdian Masyarakat Universitas Mercu Buana',
     period: 'Feb 2025 – Jan 2026',
     location: 'Jakarta, Indonesia',
     type: 'Internship',
     summary: 'Menjadi penghubung antara dosen dan staf LPPM dalam kegiatan penelitian',
     description: `Selama masa magang di LPPM UMB, saya bertanggung jawab untuk:
-      \n• Membantu rekapitulasi dan mengelola data penelitian dosen secara tersktuktur.
-      \n• Menerima, memeriksa, dan mengarsipkan laporan penelitian dosen sesuai dengan ketentuan yang berlaku.
-      \n• Membantu staf LPPM dalam kegiatan penelitian.`,
+      \n• Melakukan entri data dan pengelolaan data penelitian dosen, serta menerima, memeriksa, dan mengarsipkan laporan penelitian sesuai ketentuan.
+      \n• Menjadi penghubung antara dosen dan staf LPPM dalam proses administrasi penelitian.
+      \n• Memberikan dukungan administratif dan operasional kepada staf LPPM untuk mendukung komunikasi, keakuratan data, dan efisiensi alur kerja penelitian.`,
     tech: ['Microsoft Office', 'Google Workspace', 'Data Management', 'Documentation', 'Communication'],
     color: '#6C63FF',
   },
