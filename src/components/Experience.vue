@@ -3,7 +3,7 @@
     <div class="section">
       <h2 class="section-title reveal" ref="titleEl">Pengalaman</h2>
       <p class="section-subtitle reveal" ref="subtitleEl">
-        Perjalanan karir dan kontribusi yang telah saya jalani
+        Perjalanan karir dan kontribusi yang telah dijalani
       </p>
 
       <div class="exp-timeline">

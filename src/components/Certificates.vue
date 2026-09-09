@@ -3,7 +3,7 @@
     <div class="section">
       <h2 class="section-title reveal" ref="titleEl">Sertifikat</h2>
       <p class="section-subtitle reveal" ref="subtitleEl">
-        Sertifikasi &amp; penghargaan yang pernah saya raih
+        Sertifikasi &amp; penghargaan yang pernah diraih
       </p>
 
       <!-- Filter tabs -->
@@ -17,38 +17,16 @@
         >{{ cat }}</button>
       </div>
 
-      <!-- Carousel wrapper -->
-      <div class="carousel-wrapper reveal" ref="carouselEl">
-        <div class="carousel-track" ref="trackEl">
+      <!-- Grid wrapper -->
+      <div class="cert-grid-wrapper reveal" ref="carouselEl">
+        <div class="cert-grid">
           <div
-            v-for="(cert, index) in filtered"
+            v-for="cert in paginatedCertificates"
             :key="cert.id"
-            class="carousel-slide"
-            :class="{ active: index === activeIndex }"
+            class="cert-card card"
           >
             <div class="cert-image-wrap" @click="openLightbox(cert)" title="Klik untuk melihat sertifikat">
-              <template v-if="cert.pdf">
-                <object
-                  :data="cert.pdf + '#toolbar=0&navpanes=0&scrollbar=0&view=FitH'"
-                  type="application/pdf"
-                  class="cert-pdf"
-                  :title="cert.name"
-                >
-                  <img
-                    v-if="cert.image"
-                    :src="cert.image"
-                    :alt="cert.name"
-                    class="cert-image"
-                  />
-                  <div v-else class="cert-pdf-fallback">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
-                    <span>{{ cert.name }}</span>
-                  </div>
-                </object>
-              </template>
-
               <img
-                v-else
                 :src="cert.image"
                 :alt="cert.name"
                 class="cert-image"
@@ -95,13 +73,13 @@
         </div>
 
         <!-- Nav arrows -->
-        <button class="carousel-btn prev" @click="prev" :disabled="filtered.length <= 1">
+        <button class="carousel-btn prev" @click="prev" :disabled="currentPage === 1" v-if="totalPages > 1">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
             fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="15 18 9 12 15 6"/>
           </svg>
         </button>
-        <button class="carousel-btn next" @click="next" :disabled="filtered.length <= 1">
+        <button class="carousel-btn next" @click="next" :disabled="currentPage === totalPages" v-if="totalPages > 1">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
             fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="9 18 15 12 9 6"/>
@@ -110,19 +88,19 @@
       </div>
 
       <!-- Dot indicators -->
-      <div class="carousel-dots" v-if="filtered.length > 1">
+      <div class="carousel-dots" v-if="totalPages > 1">
         <button
-          v-for="(cert, i) in filtered"
-          :key="cert.id"
+          v-for="page in totalPages"
+          :key="page"
           class="dot"
-          :class="{ active: i === activeIndex }"
-          @click="goTo(i)"
+          :class="{ active: page === currentPage }"
+          @click="goTo(page)"
         />
       </div>
 
       <!-- Counter -->
-      <p class="carousel-counter" v-if="filtered.length > 0">
-        {{ activeIndex + 1 }} / {{ filtered.length }}
+      <p class="carousel-counter" v-if="totalPages > 1">
+        Halaman {{ currentPage }} / {{ totalPages }}
       </p>
     </div>
   </section>
@@ -197,7 +175,9 @@ const carouselEl = ref(null);
 const allCats = ['Semua', ...new Set(props.certificates.map(c => c.category))];
 const categories   = ref(allCats);
 const activeFilter = ref('Semua');
-const activeIndex  = ref(0);
+// Pagination (Multiple of 6)
+const itemsPerPage = 6;
+const currentPage  = ref(1);
 
 const filtered = computed(() =>
   activeFilter.value === 'Semua'
@@ -205,25 +185,37 @@ const filtered = computed(() =>
     : props.certificates.filter(c => c.category === activeFilter.value)
 );
 
+const totalPages = computed(() => Math.ceil(filtered.value.length / itemsPerPage));
+
+const paginatedCertificates = computed(() => {
+  const start = (currentPage.value - 1) * itemsPerPage;
+  const end = start + itemsPerPage;
+  return filtered.value.slice(start, end);
+});
+
 function onFilterChange(cat) {
   activeFilter.value = cat;
-  activeIndex.value  = 0;
+  currentPage.value  = 1;
 }
 
 function prev() {
-  activeIndex.value = (activeIndex.value - 1 + filtered.value.length) % filtered.value.length;
+  if (currentPage.value > 1) {
+    currentPage.value--;
+  }
 }
 
 function next() {
-  activeIndex.value = (activeIndex.value + 1) % filtered.value.length;
+  if (currentPage.value < totalPages.value) {
+    currentPage.value++;
+  }
 }
 
-function goTo(i) {
-  activeIndex.value = i;
+function goTo(page) {
+  currentPage.value = page;
 }
 
-// Reset index when filtered list changes
-watch(filtered, () => { activeIndex.value = 0; });
+// Reset page when filtered list changes
+watch(filtered, () => { currentPage.value = 1; });
 
 // ── Lightbox ──
 const lightbox = reactive({ open: false, cert: null });
@@ -293,33 +285,26 @@ onUnmounted(() => {
   color: #fff;
 }
 
-/* Carousel wrapper */
-.carousel-wrapper {
+/* Grid wrapper */
+.cert-grid-wrapper {
   position: relative;
-  max-width: 720px;
+  max-width: 1100px;
   margin: 0 auto;
+  padding: 0 44px;
 }
 
-.carousel-track {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-  border-radius: var(--radius-lg, 16px);
+.cert-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
 }
 
-/* Slides */
-.carousel-slide {
-  display: none;
-  flex-direction: column;
-  background: var(--color-card);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg, 16px);
-  overflow: hidden;
-  box-shadow: 0 8px 32px rgba(37,99,235,0.08);
-  animation: slideIn 0.4s ease;
-}
-.carousel-slide.active {
+/* Cards */
+.cert-card {
   display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: fadeIn 0.4s ease;
 }
 
 @keyframes slideIn {
@@ -417,13 +402,19 @@ onUnmounted(() => {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  flex: 1;
 }
 .cert-name {
-  font-size: 1.2rem;
+  font-size: 1.15rem;
   font-weight: 700;
   color: var(--color-text);
   line-height: 1.35;
   margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 2.7em;
 }
 .cert-issuer {
   display: flex;
@@ -434,16 +425,21 @@ onUnmounted(() => {
   margin: 0;
 }
 .cert-description {
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   color: var(--color-text-muted);
-  line-height: 1.65;
+  line-height: 1.6;
   margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 3.2em;
 }
 .cert-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 6px;
+  margin-top: auto;
   padding-top: 14px;
   border-top: 1px solid var(--color-border);
 }
@@ -473,7 +469,7 @@ onUnmounted(() => {
 /* Navigation arrows */
 .carousel-btn {
   position: absolute;
-  top: calc(50% - 56px);
+  top: 50%;
   transform: translateY(-50%);
   width: 44px;
   height: 44px;
@@ -668,9 +664,28 @@ onUnmounted(() => {
   opacity: 0;
 }
 
+@media (max-width: 992px) {
+  .cert-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 768px) {
+  .cert-grid-wrapper {
+    padding: 0 54px;
+  }
+  .carousel-btn.prev { left: 8px; }
+  .carousel-btn.next { right: 8px; }
+}
 @media (max-width: 640px) {
-  .carousel-btn.prev { left: -12px; }
-  .carousel-btn.next { right: -12px; }
+  .cert-grid {
+    grid-template-columns: 1fr;
+  }
+  .cert-grid-wrapper {
+    padding: 0 12px;
+  }
+  .carousel-btn {
+    display: none;
+  }
   .cert-info { padding: 18px 20px; }
   .cert-name { font-size: 1.05rem; }
   .lb-box { width: 98vw; height: 92vh; border-radius: 12px; }

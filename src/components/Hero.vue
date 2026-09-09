@@ -13,7 +13,7 @@
 
       <!-- Text -->
       <div class="hero-text reveal" ref="textEl">
-        <span class="hero-greeting">Halo, Saya 👋</span>
+        <span class="hero-greeting">Perkenalkan, Saya</span>
         <h1 class="hero-name">{{ profile.name }}</h1>
         <p class="hero-title gradient-text">{{ profile.title }}</p>
 

@@ -60,6 +60,7 @@ const links = [
   { id: 'hero',         label: 'Home' },
   { id: 'certificates', label: 'Sertifikat' },
   { id: 'experience',   label: 'Pengalaman' },
+  { id: 'publications', label: 'Publikasi' },
   { id: 'contact',      label: 'Kontak' },
 ];
 
