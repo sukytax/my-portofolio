@@ -233,7 +233,7 @@ export const publications = [
     journal: 'Jurnal Ilmu Teknik dan Komputer (JITKOM)',
     volume: 'Vol. 10, No. 1, hlm. 26–30',
     year: '2026',
-    doi: 'https://doi.org/10.22441/jitkom.v10i1.005',
+    doi: 'https://publikasi.mercubuana.ac.id/index.php/jitkom/article/view/35035',
     category: 'Jurnal Ilmiah',
     abstract: 'Penelitian ini berfokus pada pengembangan sistem klasifikasi kelayakan konsumsi cabai merah (Capsicum annuum L.) menggunakan algoritma Support Vector Machine (SVM). Melalui pendekatan data mining dan ekstraksi fitur citra, penelitian ini menghasilkan model klasifikasi yang akurat untuk mendukung penyortiran komoditas pertanian secara efektif.',
     tech: ['Data Mining', 'Support Vector Machine (SVM)', 'Python', 'Image Feature Extraction', 'Digital Agriculture'],
