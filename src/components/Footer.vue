@@ -3,7 +3,7 @@
     <div class="footer-inner section">
       <!-- CTA Headline -->
       <div class="footer-cta reveal" ref="ctaEl">
-        <h2 class="footer-heading">Mari Berkolaborasi 🚀</h2>
+        <h2 class="footer-heading">Mari Berkolaborasi!!</h2>
         <p class="footer-desc">
           Punya proyek menarik atau sekadar ingin ngobrol soal teknologi?
           Jangan ragu untuk menghubungi saya!

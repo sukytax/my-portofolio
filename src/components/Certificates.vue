@@ -1,7 +1,7 @@
 <template>
   <section id="certificates">
     <div class="section">
-      <h2 class="section-title reveal" ref="titleEl">Sertifikat</h2>
+      <h2 class="section-title reveal" ref="titleEl">Sertifikasi</h2>
       <p class="section-subtitle reveal" ref="subtitleEl">
         Sertifikasi &amp; penghargaan yang pernah diraih
       </p>

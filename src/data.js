@@ -1,6 +1,6 @@
 export const profile = {
   name: 'Bimo Bagas Riyanto',
-  title: 'Informatics Engineer & Data Enthusiast',
+  title: 'IT Developer & Data Enthusiast',
   about: [
     'Saya adalah lulusan Sarjana Teknik Informatika dari Universitas Mercu Buana dengan minat yang besar di bidang teknologi dan informatika. Saat ini, saya sedang mendalami spesialisasi Data Science untuk membangun pemahaman mendalam mengenai analisis data serta implementasinya di berbagai sektor industri.',
     'Didorong oleh keinginan kuat untuk terus belajar dan berinovasi, saya berkomitmen untuk mengoptimalkan keahlian saya dalam mengolah data menjadi solusi yang relevan, strategis, dan berdampak nyata. Saya percaya bahwa melalui pendekatan berbasis data, kita dapat menjawab berbagai tantangan kompleks di era digital saat ini.',
@@ -18,7 +18,7 @@ export const profile = {
       degree: 'S1 Teknik Informatika',
       school: 'Universitas Mercu Buana',
       location: 'Jakarta, Indonesia',
-      period: '2022 – Sekarang',
+      period: '2022 – 2026',
       gpa: '3.90 / 4.00',
       description: 'Fokus pada ilmu data, basis data, dan pengembangan website. Aktif dalam kegiatan kemahasiswaan HiMTI dan UKM Voli.',
     },
